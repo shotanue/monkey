@@ -19,6 +19,14 @@ impl Lexer {
         lexer.read_char();
         return lexer;
     }
+
+    fn peek_char(&self) -> u8 {
+        if self.read_position >= self.input.len() {
+            0
+        } else {
+            self.input.as_bytes()[self.read_position]
+        }
+    }
     fn read_char(&mut self) {
         self.ch = if self.read_position >= self.input.len() {
             0

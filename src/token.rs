@@ -38,6 +38,8 @@ pub enum TokenType {
     IF,
     ELSE,
     RETURN,
+    EQ,
+    NotEq,
 }
 
 pub fn lookup_ident(ident: &String) -> TokenType {
