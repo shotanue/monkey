@@ -12,8 +12,17 @@ pub enum TokenType {
     EOF,
     IDENT,
     INT,
+    // operator
     ASSIGN,
     PLUS,
+    MINUS,
+    BANG,
+    ASTERISK,
+    SLASH,
+    LT,
+    GT,
+
+    //
     COMMA,
     SEMICOLON,
     LPAREN,

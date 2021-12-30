@@ -75,6 +75,13 @@ impl Lexer {
             b')' => Self::new_token(TokenType::RPAREN, self.ch),
             b',' => Self::new_token(TokenType::COMMA, self.ch),
             b'+' => Self::new_token(TokenType::PLUS, self.ch),
+            b'-' => Self::new_token(TokenType::MINUS, self.ch),
+            b'!' => Self::new_token(TokenType::BANG, self.ch),
+            b'/' => Self::new_token(TokenType::SLASH, self.ch),
+            b'*' => Self::new_token(TokenType::ASTERISK, self.ch),
+            b'<' => Self::new_token(TokenType::LT, self.ch),
+            b'>' => Self::new_token(TokenType::GT, self.ch),
+            b';' => Self::new_token(TokenType::SEMICOLON, self.ch),
             b'{' => Self::new_token(TokenType::LBRACE, self.ch),
             b'}' => Self::new_token(TokenType::RBRACE, self.ch),
             0 => Token {
@@ -141,6 +148,8 @@ let add = fn(x,y) {
   x + y;
 };
 let result = add(five, ten);
+!-/*5;
+5 < 10 > 5;
     "#;
 
     let _tests: Vec<Token> = vec![
@@ -283,6 +292,54 @@ let result = add(five, ten);
         Token {
             token_type: TokenType::RPAREN,
             literal: String::from(")"),
+        },
+        Token {
+            token_type: TokenType::SEMICOLON,
+            literal: String::from(";"),
+        },
+        Token {
+            token_type: TokenType::BANG,
+            literal: String::from("!"),
+        },
+        Token {
+            token_type: TokenType::MINUS,
+            literal: String::from("-"),
+        },
+        Token {
+            token_type: TokenType::SLASH,
+            literal: String::from("/"),
+        },
+        Token {
+            token_type: TokenType::ASTERISK,
+            literal: String::from("*"),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("5"),
+        },
+        Token {
+            token_type: TokenType::SEMICOLON,
+            literal: String::from(";"),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("5"),
+        },
+        Token {
+            token_type: TokenType::LT,
+            literal: String::from("<"),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("10"),
+        },
+        Token {
+            token_type: TokenType::GT,
+            literal: String::from(">"),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("5"),
         },
         Token {
             token_type: TokenType::SEMICOLON,
