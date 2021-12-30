@@ -158,271 +158,73 @@ if (5 < 10) {
 }
     "#;
 
-    let _tests: Vec<Token> = vec![
-        Token {
-            token_type: TokenType::LET,
-            literal: String::from("let"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("five"),
-        },
-        Token {
-            token_type: TokenType::ASSIGN,
-            literal: String::from("="),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("5"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::LET,
-            literal: String::from("let"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("ten"),
-        },
-        Token {
-            token_type: TokenType::ASSIGN,
-            literal: String::from("="),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("10"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::LET,
-            literal: String::from("let"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("add"),
-        },
-        Token {
-            token_type: TokenType::ASSIGN,
-            literal: String::from("="),
-        },
-        Token {
-            token_type: TokenType::FUNCTION,
-            literal: String::from("fn"),
-        },
-        Token {
-            token_type: TokenType::LPAREN,
-            literal: String::from("("),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("x"),
-        },
-        Token {
-            token_type: TokenType::COMMA,
-            literal: String::from(","),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("y"),
-        },
-        Token {
-            token_type: TokenType::RPAREN,
-            literal: String::from(")"),
-        },
-        Token {
-            token_type: TokenType::LBRACE,
-            literal: String::from("{"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("x"),
-        },
-        Token {
-            token_type: TokenType::PLUS,
-            literal: String::from("+"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("y"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::RBRACE,
-            literal: String::from("}"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::LET,
-            literal: String::from("let"),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("result"),
-        },
-        Token {
-            token_type: TokenType::ASSIGN,
-            literal: String::from("="),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("add"),
-        },
-        Token {
-            token_type: TokenType::LPAREN,
-            literal: String::from("("),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("five"),
-        },
-        Token {
-            token_type: TokenType::COMMA,
-            literal: String::from(","),
-        },
-        Token {
-            token_type: TokenType::IDENT,
-            literal: String::from("ten"),
-        },
-        Token {
-            token_type: TokenType::RPAREN,
-            literal: String::from(")"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::BANG,
-            literal: String::from("!"),
-        },
-        Token {
-            token_type: TokenType::MINUS,
-            literal: String::from("-"),
-        },
-        Token {
-            token_type: TokenType::SLASH,
-            literal: String::from("/"),
-        },
-        Token {
-            token_type: TokenType::ASTERISK,
-            literal: String::from("*"),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("5"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("5"),
-        },
-        Token {
-            token_type: TokenType::LT,
-            literal: String::from("<"),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("10"),
-        },
-        Token {
-            token_type: TokenType::GT,
-            literal: String::from(">"),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("5"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::IF,
-            literal: String::from("if"),
-        },
-        Token {
-            token_type: TokenType::LPAREN,
-            literal: String::from("("),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("5"),
-        },
-        Token {
-            token_type: TokenType::LT,
-            literal: String::from("<"),
-        },
-        Token {
-            token_type: TokenType::INT,
-            literal: String::from("10"),
-        },
-        Token {
-            token_type: TokenType::RPAREN,
-            literal: String::from(")"),
-        },
-        Token {
-            token_type: TokenType::LBRACE,
-            literal: String::from("{"),
-        },
-        Token {
-            token_type: TokenType::RETURN,
-            literal: String::from("return"),
-        },
-        Token {
-            token_type: TokenType::TRUE,
-            literal: String::from("true"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::RBRACE,
-            literal: String::from("}"),
-        },
-        Token {
-            token_type: TokenType::ELSE,
-            literal: String::from("else"),
-        },
-        Token {
-            token_type: TokenType::LBRACE,
-            literal: String::from("{"),
-        },
-        Token {
-            token_type: TokenType::RETURN,
-            literal: String::from("return"),
-        },
-        Token {
-            token_type: TokenType::FALSE,
-            literal: String::from("false"),
-        },
-        Token {
-            token_type: TokenType::SEMICOLON,
-            literal: String::from(";"),
-        },
-        Token {
-            token_type: TokenType::RBRACE,
-            literal: String::from("}"),
-        },
-        Token {
-            token_type: TokenType::EOF,
-            literal: String::from(""),
-        },
+    let _tests: Vec<(TokenType, String)> = vec![
+        (TokenType::LET, String::from("let")),
+        (TokenType::IDENT, String::from("five")),
+        (TokenType::ASSIGN, String::from("=")),
+        (TokenType::INT, String::from("5")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::LET, String::from("let")),
+        (TokenType::IDENT, String::from("ten")),
+        (TokenType::ASSIGN, String::from("=")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::LET, String::from("let")),
+        (TokenType::IDENT, String::from("add")),
+        (TokenType::ASSIGN, String::from("=")),
+        (TokenType::FUNCTION, String::from("fn")),
+        (TokenType::LPAREN, String::from("(")),
+        (TokenType::IDENT, String::from("x")),
+        (TokenType::COMMA, String::from(",")),
+        (TokenType::IDENT, String::from("y")),
+        (TokenType::RPAREN, String::from(")")),
+        (TokenType::LBRACE, String::from("{")),
+        (TokenType::IDENT, String::from("x")),
+        (TokenType::PLUS, String::from("+")),
+        (TokenType::IDENT, String::from("y")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::RBRACE, String::from("}")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::LET, String::from("let")),
+        (TokenType::IDENT, String::from("result")),
+        (TokenType::ASSIGN, String::from("=")),
+        (TokenType::IDENT, String::from("add")),
+        (TokenType::LPAREN, String::from("(")),
+        (TokenType::IDENT, String::from("five")),
+        (TokenType::COMMA, String::from(",")),
+        (TokenType::IDENT, String::from("ten")),
+        (TokenType::RPAREN, String::from(")")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::BANG, String::from("!")),
+        (TokenType::MINUS, String::from("-")),
+        (TokenType::SLASH, String::from("/")),
+        (TokenType::ASTERISK, String::from("*")),
+        (TokenType::INT, String::from("5")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::INT, String::from("5")),
+        (TokenType::LT, String::from("<")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::GT, String::from(">")),
+        (TokenType::INT, String::from("5")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::IF, String::from("if")),
+        (TokenType::LPAREN, String::from("(")),
+        (TokenType::INT, String::from("5")),
+        (TokenType::LT, String::from("<")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::RPAREN, String::from(")")),
+        (TokenType::LBRACE, String::from("{")),
+        (TokenType::RETURN, String::from("return")),
+        (TokenType::TRUE, String::from("true")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::RBRACE, String::from("}")),
+        (TokenType::ELSE, String::from("else")),
+        (TokenType::LBRACE, String::from("{")),
+        (TokenType::RETURN, String::from("return")),
+        (TokenType::FALSE, String::from("false")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::RBRACE, String::from("}")),
+        (TokenType::EOF, String::from("")),
     ];
 
     let mut lexer = Lexer::new(_input.to_string());
@@ -431,13 +233,13 @@ if (5 < 10) {
         println!("{:?}", token);
         assert_eq!(
             token.token_type,
-            tt.token_type,
+            tt.0,
             "{}",
             format!("tests[{}] - tokentype wrong.", i)
         );
         assert_eq!(
             token.literal,
-            tt.literal,
+            tt.1,
             "{}",
             format!("tests[{}] - literal wrong.", i)
         );
