@@ -150,6 +150,12 @@ let add = fn(x,y) {
 let result = add(five, ten);
 !-/*5;
 5 < 10 > 5;
+
+if (5 < 10) {
+  return true;
+} else {
+  return false;
+}
     "#;
 
     let _tests: Vec<Token> = vec![
@@ -344,6 +350,74 @@ let result = add(five, ten);
         Token {
             token_type: TokenType::SEMICOLON,
             literal: String::from(";"),
+        },
+        Token {
+            token_type: TokenType::IF,
+            literal: String::from("if"),
+        },
+        Token {
+            token_type: TokenType::LPAREN,
+            literal: String::from("("),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("5"),
+        },
+        Token {
+            token_type: TokenType::LT,
+            literal: String::from("<"),
+        },
+        Token {
+            token_type: TokenType::INT,
+            literal: String::from("10"),
+        },
+        Token {
+            token_type: TokenType::RPAREN,
+            literal: String::from(")"),
+        },
+        Token {
+            token_type: TokenType::LBRACE,
+            literal: String::from("{"),
+        },
+        Token {
+            token_type: TokenType::RETURN,
+            literal: String::from("return"),
+        },
+        Token {
+            token_type: TokenType::TRUE,
+            literal: String::from("true"),
+        },
+        Token {
+            token_type: TokenType::SEMICOLON,
+            literal: String::from(";"),
+        },
+        Token {
+            token_type: TokenType::RBRACE,
+            literal: String::from("}"),
+        },
+        Token {
+            token_type: TokenType::ELSE,
+            literal: String::from("else"),
+        },
+        Token {
+            token_type: TokenType::LBRACE,
+            literal: String::from("{"),
+        },
+        Token {
+            token_type: TokenType::RETURN,
+            literal: String::from("return"),
+        },
+        Token {
+            token_type: TokenType::FALSE,
+            literal: String::from("false"),
+        },
+        Token {
+            token_type: TokenType::SEMICOLON,
+            literal: String::from(";"),
+        },
+        Token {
+            token_type: TokenType::RBRACE,
+            literal: String::from("}"),
         },
         Token {
             token_type: TokenType::EOF,

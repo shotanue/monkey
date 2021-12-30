@@ -29,14 +29,26 @@ pub enum TokenType {
     RPAREN,
     LBRACE,
     RBRACE,
+
+    // keyword
     FUNCTION,
     LET,
+    TRUE,
+    FALSE,
+    IF,
+    ELSE,
+    RETURN,
 }
 
 pub fn lookup_ident(ident: &String) -> TokenType {
     match ident.as_str() {
         "fn" => TokenType::FUNCTION,
         "let" => TokenType::LET,
+        "true" => TokenType::TRUE,
+        "false" => TokenType::FALSE,
+        "if" => TokenType::IF,
+        "else" => TokenType::ELSE,
+        "return" => TokenType::RETURN,
         _ => TokenType::IDENT,
     }
 }
