@@ -77,14 +77,31 @@ impl Lexer {
         self.skip_whitespace();
 
         let token: Token = match self.ch {
-            b'=' => Self::new_token(TokenType::ASSIGN, self.ch),
-            b';' => Self::new_token(TokenType::SEMICOLON, self.ch),
+            b'=' if self.peek_char() == b'=' => Token {
+                token_type: TokenType::EQ,
+                literal: (|| -> String {
+                    let mut ch = String::from_utf8(vec![self.ch]).unwrap();
+                    self.read_char();
+                    ch.push_str(String::from_utf8(vec![self.ch]).unwrap().as_str());
+                    return ch;
+                })(),
+            },
+            b'=' if self.peek_char() != b'=' => Self::new_token(TokenType::ASSIGN, self.ch),
             b'(' => Self::new_token(TokenType::LPAREN, self.ch),
             b')' => Self::new_token(TokenType::RPAREN, self.ch),
             b',' => Self::new_token(TokenType::COMMA, self.ch),
             b'+' => Self::new_token(TokenType::PLUS, self.ch),
             b'-' => Self::new_token(TokenType::MINUS, self.ch),
-            b'!' => Self::new_token(TokenType::BANG, self.ch),
+            b'!' if self.peek_char() == b'=' => Token {
+                token_type: TokenType::NotEq,
+                literal: (|| -> String {
+                    let mut ch = String::from_utf8(vec![self.ch]).unwrap();
+                    self.read_char();
+                    ch.push_str(String::from_utf8(vec![self.ch]).unwrap().as_str());
+                    return ch;
+                })(),
+            },
+            b'!' if self.peek_char() != b'=' => Self::new_token(TokenType::BANG, self.ch),
             b'/' => Self::new_token(TokenType::SLASH, self.ch),
             b'*' => Self::new_token(TokenType::ASTERISK, self.ch),
             b'<' => Self::new_token(TokenType::LT, self.ch),
@@ -164,6 +181,9 @@ if (5 < 10) {
 } else {
   return false;
 }
+
+10 == 10;
+10 != 9;
     "#;
 
     let _tests: Vec<(TokenType, String)> = vec![
@@ -232,6 +252,14 @@ if (5 < 10) {
         (TokenType::FALSE, String::from("false")),
         (TokenType::SEMICOLON, String::from(";")),
         (TokenType::RBRACE, String::from("}")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::EQ, String::from("==")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::SEMICOLON, String::from(";")),
+        (TokenType::INT, String::from("10")),
+        (TokenType::NotEq, String::from("!=")),
+        (TokenType::INT, String::from("9")),
+        (TokenType::SEMICOLON, String::from(";")),
         (TokenType::EOF, String::from("")),
     ];
 
