@@ -12,13 +12,10 @@ struct Parser {
 
 impl Parser {
     pub fn new(mut lexer: Lexer) -> Parser {
-        let current_token = lexer.next_token();
-        let peek_token = lexer.next_token();
-
         return Parser {
-            lexer,
-            current_token,
-            peek_token,
+            current_token: lexer.next_token(),
+            peek_token: lexer.next_token(),
+            lexer, // `lexer` moves here. Therefore we need to complete call `next_token()`
             errors: vec![],
         };
     }
