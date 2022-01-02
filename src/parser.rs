@@ -7,6 +7,7 @@ struct Parser {
     lexer: Lexer,
     current_token: Token,
     peek_token: Token,
+    pub errors: Vec<String>,
 }
 
 impl Parser {
@@ -18,7 +19,15 @@ impl Parser {
             lexer,
             current_token,
             peek_token,
+            errors: vec![],
         };
+    }
+
+    fn peek_error(&mut self, token: &TokenType) {
+        self.errors.push(format!(
+            "expected next token to be {:?}, got {:?} instead",
+            token, token,
+        ))
     }
 
     fn next_token(&mut self) {
@@ -64,15 +73,16 @@ impl Parser {
     fn currenet_token_is(&self, token: TokenType) -> bool {
         return self.current_token.token_type == token;
     }
-    fn peek_token_is(&self, token: TokenType) -> bool {
-        return self.peek_token.token_type == token;
+    fn peek_token_is(&self, token: &TokenType) -> bool {
+        return self.peek_token.token_type == *token;
     }
 
     pub fn expect_peek(&mut self, token: TokenType) -> bool {
-        if self.peek_token_is(token) {
+        if self.peek_token_is(&token) {
             self.next_token();
             return true;
         }
+        self.peek_error(&token);
         return false;
     }
 }
@@ -82,6 +92,18 @@ mod test {
     use crate::ast::{Expression, Statement};
     use crate::lexer::Lexer;
     use crate::parser::Parser;
+
+    fn check_parser_errors(parser: &Parser) {
+        let errors = &parser.errors;
+        if errors.is_empty() {
+            return;
+        }
+        eprintln!("parser has {} errors", errors.len());
+        for error in &parser.errors {
+            eprintln!("{}", error)
+        }
+        panic!()
+    }
 
     #[test]
     fn test_let_statements() {
@@ -94,12 +116,12 @@ mod test {
         let lexer = Lexer::new(String::from(input));
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program().unwrap();
+        check_parser_errors(&parser);
         assert_eq!(
             program.statements.len(),
             3,
             "program.statements does not contain 3 statements"
         );
-        println!("{:?}", program.statements);
         let tests = vec!["x", "y", "foobar"];
         for (i, expected_identifier) in tests.iter().enumerate() {
             let statement = &program.statements[i];
@@ -109,7 +131,7 @@ mod test {
 
     fn test_let_statement(statement: &Statement, expected_identifier: &str) {
         match statement {
-            Statement::LET { name, value } => match name {
+            Statement::LET { name, .. } => match name {
                 Expression::Identifier(identifier_name) => {
                     assert_eq!(
                         identifier_name, expected_identifier,
@@ -117,6 +139,7 @@ mod test {
                     );
                 }
             },
+            #[allow(unreachable_patterns)]
             x => {
                 panic!("statement is not Statement::Let. got={:?}", x);
             }
