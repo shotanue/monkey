@@ -8,6 +8,7 @@
 #[derive(Debug)]
 pub enum Statement {
     LET { name: Expression, value: Expression },
+    RETURN(Expression),
 }
 
 #[derive(Debug)]

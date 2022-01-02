@@ -49,6 +49,7 @@ impl Parser {
     fn parse_statement(&mut self) -> Option<Statement> {
         match self.current_token.token_type {
             TokenType::LET => self.parse_let_statement(),
+            TokenType::RETURN => self.parse_return_statement(),
             _ => None,
         }
     }
@@ -69,6 +70,17 @@ impl Parser {
             name,
             value: Identifier(String::from("")),
         });
+    }
+    fn parse_return_statement(&mut self) -> Option<Statement> {
+        let statement = Statement::RETURN(Identifier(self.current_token.literal.clone()));
+
+        self.next_token();
+
+        while self.current_token_is(TokenType::SEMICOLON) {
+            self.next_token();
+        }
+
+        return Some(statement);
     }
     fn current_token_is(&self, token: TokenType) -> bool {
         return self.current_token.token_type == token;
@@ -144,5 +156,33 @@ mod test {
                 panic!("statement is not Statement::Let. got={:?}", x);
             }
         };
+    }
+
+    #[test]
+    fn test_return_statements() {
+        let input = r#"
+        return 5;
+        return 10;
+        return 993322;
+        "#;
+
+        let lexer = Lexer::new(String::from(input));
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program().unwrap();
+
+        check_parser_errors(&parser);
+
+        assert_eq!(
+            program.statements.len(),
+            3,
+            "program.statements does not contain 3 statements."
+        );
+
+        for statement in program.statements {
+            match statement {
+                Statement::RETURN(_x) => {}
+                _ => panic!("statement is not Statement::RETURN"),
+            }
+        }
     }
 }
