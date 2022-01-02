@@ -61,7 +61,7 @@ impl Parser {
         if !self.expect_peek(TokenType::ASSIGN) {
             return None;
         }
-        while self.currenet_token_is(TokenType::SEMICOLON) {
+        while self.current_token_is(TokenType::SEMICOLON) {
             self.next_token();
         }
 
@@ -70,7 +70,7 @@ impl Parser {
             value: Identifier(String::from("")),
         });
     }
-    fn currenet_token_is(&self, token: TokenType) -> bool {
+    fn current_token_is(&self, token: TokenType) -> bool {
         return self.current_token.token_type == token;
     }
     fn peek_token_is(&self, token: &TokenType) -> bool {
