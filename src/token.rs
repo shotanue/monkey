@@ -1,12 +1,10 @@
-use crate::lexer::Lexer;
-
-#[derive(Debug)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Token {
     pub(crate) token_type: TokenType,
     pub(crate) literal: String,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Ord, PartialOrd, Eq)]
 pub enum TokenType {
     ILLEGAL,
     EOF,
