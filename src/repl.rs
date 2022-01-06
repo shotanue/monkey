@@ -8,7 +8,6 @@ pub fn start(stdin: Stdin) {
         stdin.read_line(&mut s).expect("failed to read stdin");
 
         if s.is_empty() {
-            print!("!!");
             return;
         }
         let mut lexer = Lexer::new(s);

@@ -266,7 +266,6 @@ if (5 < 10) {
     let mut lexer = Lexer::new(_input.to_string());
     for (i, tt) in _tests.iter().enumerate() {
         let token = lexer.next_token();
-        println!("{:?}", token);
         assert_eq!(
             token.token_type,
             tt.0,
