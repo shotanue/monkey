@@ -1,5 +1,5 @@
 use crate::ast::Expression::Identifier;
-use crate::ast::{Expression, Priority, Program, Statement};
+use crate::ast::{Expression, Precedence, Program, Statement};
 use crate::lexer::Lexer;
 use crate::token::{Token, TokenType};
 
@@ -52,7 +52,7 @@ impl Parser {
     }
     fn parse_expression_statement(&mut self) -> Option<Statement> {
         // let statement = Statement::EXPRESSION(Identifier(self.current_token.literal.clone()));
-        let expression = self.parse_expression(Priority::LOWEST);
+        let expression = self.parse_expression(Precedence::LOWEST);
 
         if self.peek_token_is(&TokenType::SEMICOLON) {
             self.next_token();
@@ -63,7 +63,7 @@ impl Parser {
             None
         };
     }
-    fn parse_expression(&mut self, _priority: Priority) -> Option<Expression> {
+    fn parse_expression(&mut self, _precedence: Precedence) -> Option<Expression> {
         let prefix: Option<Expression> = match &self.current_token.token_type {
             TokenType::IDENT => self.parse_identifier(),
             _ => None,

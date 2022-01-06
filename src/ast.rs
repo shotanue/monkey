@@ -67,7 +67,7 @@ mod test {
 
 #[allow(dead_code)]
 #[derive(Debug, PartialEq, PartialOrd)]
-pub enum Priority {
+pub enum Precedence {
     LOWEST,
     EQUALS,      // ==
     LESSGREATER, // > or <
