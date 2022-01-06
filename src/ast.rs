@@ -64,3 +64,16 @@ mod test {
         assert_eq!("let myVar = anotherVar;\n", program.to_string())
     }
 }
+
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, PartialOrd)]
+pub enum Priority {
+    LOWEST,
+    EQUALS,      // ==
+    LESSGREATER, // > or <
+    SUM,         // +
+    PRODUCT,     // *
+    PREFIX,      // -X or !X
+    CALL,        // my_cunction(x){}
+    LBRACKET,    // []
+}

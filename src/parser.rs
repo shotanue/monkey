@@ -1,5 +1,5 @@
 use crate::ast::Expression::Identifier;
-use crate::ast::{Program, Statement};
+use crate::ast::{Expression, Priority, Program, Statement};
 use crate::lexer::Lexer;
 use crate::token::{Token, TokenType};
 
@@ -47,8 +47,32 @@ impl Parser {
         match self.current_token.token_type {
             TokenType::LET => self.parse_let_statement(),
             TokenType::RETURN => self.parse_return_statement(),
-            _ => None,
+            _ => self.parse_expression_statement(),
         }
+    }
+    fn parse_expression_statement(&mut self) -> Option<Statement> {
+        // let statement = Statement::EXPRESSION(Identifier(self.current_token.literal.clone()));
+        let expression = self.parse_expression(Priority::LOWEST);
+
+        if self.peek_token_is(&TokenType::SEMICOLON) {
+            self.next_token();
+        }
+        return if let Some(x) = expression {
+            Some(Statement::EXPRESSION(x))
+        } else {
+            None
+        };
+    }
+    fn parse_expression(&mut self, _priority: Priority) -> Option<Expression> {
+        let prefix: Option<Expression> = match &self.current_token.token_type {
+            TokenType::IDENT => self.parse_identifier(),
+            _ => None,
+        };
+
+        return prefix;
+    }
+    fn parse_identifier(&self) -> Option<Expression> {
+        return Some(Identifier(self.current_token.literal.clone()));
     }
     fn parse_let_statement(&mut self) -> Option<Statement> {
         if !self.expect_peek(TokenType::IDENT) {
@@ -180,6 +204,31 @@ mod test {
                 Statement::RETURN(_x) => {}
                 _ => panic!("statement is not Statement::RETURN"),
             }
+        }
+    }
+    #[test]
+    fn test_identifier_expression() {
+        let input = r#"
+        foobar;
+        "#;
+
+        let lexer = Lexer::new(String::from(input));
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program().unwrap();
+
+        check_parser_errors(&parser);
+        assert_eq!(
+            program.statements.len(),
+            1,
+            "program.statements does not contain 3 statements."
+        );
+        match &program.statements[0] {
+            Statement::EXPRESSION(x) => match x {
+                Expression::Identifier(s) => {
+                    assert_eq!(s, "foobar");
+                }
+            },
+            _ => panic!("statement is not Statement::EXPRESSION"),
         }
     }
 }
