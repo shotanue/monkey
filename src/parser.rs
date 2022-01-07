@@ -1,4 +1,3 @@
-use crate::ast::Expression::Identifier;
 use crate::ast::{Expression, Precedence, Program, Statement};
 use crate::lexer::Lexer;
 use crate::token::{Token, TokenType};
@@ -72,14 +71,14 @@ impl Parser {
         return prefix;
     }
     fn parse_identifier(&self) -> Option<Expression> {
-        return Some(Identifier(self.current_token.literal.clone()));
+        return Some(Expression::Identifier(self.current_token.literal.clone()));
     }
     fn parse_let_statement(&mut self) -> Option<Statement> {
         if !self.expect_peek(TokenType::IDENT) {
             return None;
         }
 
-        let name = Identifier(self.current_token.literal.clone());
+        let name = Expression::Identifier(self.current_token.literal.clone());
         if !self.expect_peek(TokenType::ASSIGN) {
             return None;
         }
@@ -89,11 +88,12 @@ impl Parser {
 
         return Some(Statement::LET {
             name,
-            value: Identifier(String::from("")),
+            value: Expression::Identifier(String::from("")),
         });
     }
     fn parse_return_statement(&mut self) -> Option<Statement> {
-        let statement = Statement::RETURN(Identifier(self.current_token.literal.clone()));
+        let statement =
+            Statement::RETURN(Expression::Identifier(self.current_token.literal.clone()));
 
         self.next_token();
 
