@@ -18,6 +18,7 @@ pub enum Statement {
 #[derive(Debug)]
 pub enum Expression {
     Identifier(String),
+    Integer(i64),
 }
 #[derive(Debug)]
 pub struct Program {
@@ -37,6 +38,7 @@ impl fmt::Display for Expression {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
             Expression::Identifier(x) => write!(f, "{}", x),
+            Expression::Integer(value) => write!(f, "{}", value),
         }
     }
 }

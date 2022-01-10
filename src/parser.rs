@@ -65,6 +65,7 @@ impl Parser {
     fn parse_expression(&mut self, _precedence: Precedence) -> Option<Expression> {
         let prefix: Option<Expression> = match &self.current_token.token_type {
             TokenType::IDENT => self.parse_identifier(),
+            TokenType::INT => self.parse_integer(),
             _ => None,
         };
 
@@ -72,6 +73,11 @@ impl Parser {
     }
     fn parse_identifier(&self) -> Option<Expression> {
         return Some(Expression::Identifier(self.current_token.literal.clone()));
+    }
+    fn parse_integer(&self) -> Option<Expression> {
+        return Some(Expression::Integer(
+            self.current_token.literal.clone().parse().unwrap(),
+        ));
     }
     fn parse_let_statement(&mut self) -> Option<Statement> {
         if !self.expect_peek(TokenType::IDENT) {
@@ -171,6 +177,7 @@ mod test {
                         "check let statement name"
                     );
                 }
+                _ => panic!("expression is not identifier"),
             },
             #[allow(unreachable_patterns)]
             x => {
@@ -227,6 +234,34 @@ mod test {
                 Expression::Identifier(s) => {
                     assert_eq!(s, "foobar");
                 }
+                _ => panic!("expression is not identifier"),
+            },
+            _ => panic!("statement is not Statement::EXPRESSION"),
+        }
+    }
+    #[test]
+    fn test_integer_literal_expression() {
+        let input = r#"
+        5;
+        "#;
+
+        let lexer = Lexer::new(String::from(input));
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program().unwrap();
+
+        check_parser_errors(&parser);
+        assert_eq!(
+            program.statements.len(),
+            1,
+            "program.statements does not enough statements."
+        );
+
+        match &program.statements[0] {
+            Statement::EXPRESSION(x) => match x {
+                Expression::Integer(value) => {
+                    assert_eq!(*value, 5);
+                }
+                _ => panic!("expression is not integer"),
             },
             _ => panic!("statement is not Statement::EXPRESSION"),
         }
