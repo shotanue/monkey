@@ -82,7 +82,7 @@ impl Parser {
         if !self.expect_peek(TokenType::ASSIGN) {
             return None;
         }
-        while self.current_token_is(TokenType::SEMICOLON) {
+        while !self.current_token_is(TokenType::SEMICOLON) {
             self.next_token();
         }
 
