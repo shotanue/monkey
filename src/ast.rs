@@ -19,7 +19,7 @@ pub enum Statement {
 pub enum Expression {
     Identifier(String),
 }
-
+#[derive(Debug)]
 pub struct Program {
     pub statements: Vec<Statement>,
 }
